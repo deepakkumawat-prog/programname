@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Program Name</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+            background-color: #f8f9fa;
+        }
+        h1 {
+            color: #ff6600;
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 18px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background: #ff6600;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #e65c00;
+        }
+        .name-list {
+            margin-top: 20px;
+            text-align: left;
+            display: inline-block;
+        }
+        .name-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .name-list li {
+            background: #ffffff;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Program Name</h1>
+    <input type="text" id="nameInput" placeholder="Enter Your Name">
+    <button onclick="addName()">Add Name</button>
+
+    <div class="name-list">
+        <h2>Participants</h2>
+        <ul id="nameList"></ul>
+    </div>
+
+    <script>
+        function addName() {
+            let name = document.getElementById("nameInput").value.trim();
+            if (name !== "") {
+                let nameList = document.getElementById("nameList");
+                let listItem = document.createElement("li");
+                listItem.textContent = name;
+                nameList.appendChild(listItem);
+                document.getElementById("nameInput").value = "";
+                saveNames();
+            }
+        }
+
+        function saveNames() {
+            let names = [];
+            document.querySelectorAll("#nameList li").forEach(item => {
+                names.push(item.textContent);
+            });
+            localStorage.setItem("names", JSON.stringify(names));
+        }
+
+        function loadNames() {
+            let storedNames = localStorage.getItem("names");
+            if (storedNames) {
+                let nameList = document.getElementById("nameList");
+                JSON.parse(storedNames).forEach(name => {
+                    let listItem = document.createElement("li");
+                    listItem.textContent = name;
+                    nameList.appendChild(listItem);
+                });
+            }
+        }
+
+        window.onload = loadNames;
+    </script>
+
+</body>
+</html>
